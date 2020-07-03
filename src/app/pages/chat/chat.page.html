@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="header-padding" color="primary">
+    <ion-title>
+      {{ userDetails ? userDetails.phone : '' }}
+    </ion-title>
+    <!-- <ion-button > -->
+    <ion-icon slot="start" (click)="goBack()" name="arrow-back"></ion-icon>
+    <!-- </ion-button> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content-stable" on-swipe-left="hideTime = false" on-swipe-right="hideTime = true">
+
+  <div *ngFor="let messages of allMessages" ng-class="{other: messages.senderId != store.userUID}" class="messages">
+    <div class="message" ng-class="{'slide-right': hideTime, '': !hideTime}">
+      <span>{{ messages.message }}</span>
+    </div>
+
+    <div class="time" ng-class="{'slide-right': hideTime, '': !hideTime}">{{messages.time}}</div>
+  </div>
+
+</ion-content>
+
+<ion-footer class="footer-style" no-border>
+  <ion-textarea color="primary" class="textarea-style" class="form-control type_msg" (keyup.enter)="doSend()"
+    [(ngModel)]="message" placeholder="Enter your message" name="message">
+  </ion-textarea>
+  <div>
+    <ion-button class="input-group-text send_btn" (click)="doSend()" ion-button icon-only>
+      <ion-icon name="send" color="light"></ion-icon>
+    </ion-button>
+  </div>
+</ion-footer>

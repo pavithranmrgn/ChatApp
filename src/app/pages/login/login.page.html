@@ -1,0 +1,21 @@
+<ion-content padding>
+  <div id="logo" class="image-style">
+    <img src="../../../assets/img/logo.png">
+  </div>
+
+  <div>
+    <ion-item>
+      <ion-label position="floating">Phone number</ion-label>
+      <ion-input type="phone" [(ngModel)]="phone" name="phone"></ion-input>
+    </ion-item>
+
+    <div id="recaptcha-container"></div>
+
+      <div class="button-style">
+        <ion-button  (click)="onClickLogin()">
+          {{ 'Login' }} <ion-icon name="log-in"></ion-icon>
+        </ion-button>
+      </div>
+
+  </div>
+</ion-content>
