@@ -3,9 +3,7 @@
     <ion-title>
       {{ userDetails ? userDetails.phone : '' }}
     </ion-title>
-    <!-- <ion-button > -->
     <ion-icon slot="start" (click)="goBack()" name="arrow-back"></ion-icon>
-    <!-- </ion-button> -->
   </ion-toolbar>
 </ion-header>
 
@@ -13,9 +11,9 @@
   <div *ngFor="let messages of allMessages" [ngClass]="messages.senderId == currentUserId ? 'other' : ''" class="messages">
     <div [ngClass]="(messages.senderId == currentUserId) ? 'message' : 'slide-right'" >
       <span>{{ messages.message }}</span>
+      <!-- <div class="time">{{ '12.55'}}</div> -->
     </div>
 
-    <!-- <div class="time" ng-class="{'slide-right': hideTime, '': !hideTime}">{{messages.time}}</div> -->
   </div>
 </ion-content>
 
