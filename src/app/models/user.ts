@@ -1,8 +1,8 @@
 export class User {
     id?: string;
     userName?: string;
-    phone: number;
+    phone: string;
     loginTime: Date;
     uid: string;
-    lastLoginTime: Date;
+    lastLoginTime?: Date;
 }

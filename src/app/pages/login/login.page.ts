@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/service/user.service';
 import { Store } from 'src/app/service/store.service';
-var firebase = require("firebase");
+import * as firebase from "firebase";
 
 @Component({
   selector: 'app-login',
@@ -55,8 +55,7 @@ export class LoginPage implements OnInit {
     await this.userService.checkAndRegisterUser({
       phone: res.user.phoneNumber,
       uid: res.user.uid,
-      loginTime: new Date(),
-      lastLoginTime: res.user.metadata.lastSignInTime,
+      loginTime: new Date()
     }, res.user.uid);
 
     this.store.userUID = res.user.uid;

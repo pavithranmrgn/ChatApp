@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from 'src/app/service/store.service';
 import { ChatService } from 'src/app/service/chat.service';
@@ -6,6 +6,7 @@ import { UserService } from 'src/app/service/user.service';
 import { first } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
 import { Location } from '@angular/common';
+import { IonContent } from '@ionic/angular';
 
 @Component({
   selector: 'app-chat',
@@ -13,6 +14,8 @@ import { Location } from '@angular/common';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage implements OnInit {
+  @ViewChild(IonContent)
+  content: IonContent;
 
   selectedUserId: string = '';
   currentUserId: string = '';
@@ -37,10 +40,18 @@ export class ChatPage implements OnInit {
 
   ngOnInit() {
     this.getUserDetails();
-    this.getUserMessage();
+    this.getChats();
   }
 
-  goBack(){
+  updateScroll() {
+    setTimeout(() => {
+      if (this.content.scrollToBottom) {
+        this.content.scrollToBottom(400);
+      }
+    }, 500);
+  }
+
+  goBack() {
     this.location.back();
   }
 
@@ -51,11 +62,11 @@ export class ChatPage implements OnInit {
     });
   }
 
-  async getUserMessage() {
-    // this.chatService.getFilterChatData(this.currentUserId, this.selectedUserId).subscribe(res => {
-    //   res;
-    //   debugger
-    // });
+  async getChats() {
+    this.chatService.getUserMessages(this.currentUserId, this.selectedUserId).subscribe(res => {
+      this.allMessages = res;
+      this.updateScroll();
+    });
   }
 
   async sendMessage() {
@@ -65,6 +76,7 @@ export class ChatPage implements OnInit {
       message: this.message,
       createdDate: new Date()
     });
+    this.message = '';
   }
 
 }
