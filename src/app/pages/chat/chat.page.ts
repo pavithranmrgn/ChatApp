@@ -7,6 +7,7 @@ import { first } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
 import { Location } from '@angular/common';
 import { IonContent } from '@ionic/angular';
+import { EncryptionService } from 'src/app/service/excryption.service';
 
 @Component({
   selector: 'app-chat',
@@ -30,7 +31,8 @@ export class ChatPage implements OnInit {
     private chatService: ChatService,
     private userService: UserService,
     private store: Store,
-    private location: Location
+    private location: Location,
+    private encryptionService: EncryptionService
   ) {
     this.currentUserId = store.userUID;
     this.route.params.subscribe(params => {
@@ -62,6 +64,10 @@ export class ChatPage implements OnInit {
     });
   }
 
+  getDecrytMessage(message) {
+    return this.encryptionService.decrypt(message);
+  }
+
   async getChats() {
     this.chatService.getUserMessages(this.currentUserId, this.selectedUserId).subscribe(res => {
       this.allMessages = res;
@@ -73,7 +79,7 @@ export class ChatPage implements OnInit {
     this.chatService.addChat({
       senderId: this.store.userUID,
       recieveBy: this.selectedUserId,
-      message: this.message,
+      message: this.encryptionService.encrypt(this.message),
       createdDate: new Date()
     });
     this.message = '';
