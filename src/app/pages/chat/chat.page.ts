@@ -76,13 +76,15 @@ export class ChatPage implements OnInit {
   }
 
   async sendMessage() {
-    this.chatService.addChat({
-      senderId: this.store.userUID,
-      recieveBy: this.selectedUserId,
-      message: this.encryptionService.encrypt(this.message),
-      createdDate: new Date()
-    });
-    this.message = '';
+    if (this.message) {
+      this.chatService.addChat({
+        senderId: this.store.userUID,
+        recieveBy: this.selectedUserId,
+        message: this.encryptionService.encrypt(this.message),
+        createdDate: new Date()
+      });
+      this.message = '';
+    }
   }
 
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from 'src/app/service/store.service';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/service/user.service';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -15,11 +16,13 @@ export class HomePage {
   constructor(
     private store: Store,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private menuCtrl: MenuController
   ) {
   }
 
   ngOnInit() {
+    this.menuCtrl.enable(true);
   }
 
   ionViewWillEnter() {

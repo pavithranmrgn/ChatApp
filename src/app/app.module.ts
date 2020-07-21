@@ -17,6 +17,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { environment } from 'src/environments/environment';
+import { MenuModule } from './components/menu/menu.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,7 +30,8 @@ import { environment } from 'src/environments/environment';
     // AngularFireAuthModule,
     // AngularFireDatabaseModule,
     // AngularFireStorageModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    MenuModule
   ],
   providers: [
     StatusBar,
