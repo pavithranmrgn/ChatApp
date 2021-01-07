@@ -11,8 +11,8 @@
 
 <ion-content padding *ngIf="!isLoading">
   <ion-item *ngFor="let user of usersList">
-    <ion-label (click)="navigateToChat(user.uid)">
-      {{ user.phone }}
+    <ion-label (click)="navigateToChat(user, user.uid)">
+      {{ getDisplayName(user) }}
     </ion-label>
   </ion-item>
 </ion-content>

@@ -8,6 +8,7 @@ import { User } from 'src/app/models/user';
 import { Location } from '@angular/common';
 import { IonContent } from '@ionic/angular';
 import { EncryptionService } from 'src/app/service/excryption.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -25,6 +26,8 @@ export class ChatPage implements OnInit {
 
   allMessages: any = [];
   userDetails: User;
+
+  chatSubscription: Subscription = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
@@ -48,7 +51,7 @@ export class ChatPage implements OnInit {
   updateScroll() {
     setTimeout(() => {
       if (this.content.scrollToBottom) {
-        this.content.scrollToBottom(400);
+        this.content.scrollToBottom(100);
       }
     }, 500);
   }
@@ -69,7 +72,7 @@ export class ChatPage implements OnInit {
   }
 
   async getChats() {
-    this.chatService.getUserMessages(this.currentUserId, this.selectedUserId).subscribe(res => {
+    this.chatSubscription = this.chatService.getUserMessages(this.currentUserId, this.selectedUserId).subscribe(res => {
       this.allMessages = res;
       this.updateScroll();
     });
@@ -85,6 +88,10 @@ export class ChatPage implements OnInit {
       });
       this.message = '';
     }
+  }
+
+  ngOnDestroy() {
+    this.chatSubscription.unsubscribe();
   }
 
 }

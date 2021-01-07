@@ -53,7 +53,7 @@ export class LoginPage implements OnInit {
       });
 
     await this.userService.checkAndRegisterUser({
-      phone: res.user.phoneNumber,
+      phone: `91${this.phone}`,
       uid: res.user.uid,
       loginTime: new Date()
     }, res.user.uid);

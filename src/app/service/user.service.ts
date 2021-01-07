@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
-import { Observable, merge } from 'rxjs';
+import { Observable, of, combineLatest } from 'rxjs';
 import { map, first } from 'rxjs/operators';
 import { User } from '../models/user';
 
@@ -39,18 +39,39 @@ export class UserService {
         return this.usersCollection.doc(id).update(user);
     }
 
+    getAddressBookContactsOnly(phoneNumbers) {
+        var loopLength = Math.ceil(phoneNumbers.length / 10);
+        var splitedArray = [];
+        for (var i = 0; i < loopLength; i++) {
+            var data = phoneNumbers.splice(0, 10);
+            splitedArray.push(data);
+        }
+
+        const observables = splitedArray.map(
+            number => (this.db.collection('users', ref => ref.where('phone', 'in', number)).valueChanges())
+        );
+
+        return combineLatest(observables).pipe(
+            map((res) => {
+                var returnObj = [];
+                res.map(a => { returnObj = returnObj.concat(a) });
+                return returnObj;
+            })
+        );
+    }
+
     async checkAndRegisterUser(user: User, uid: string) {
         var ifAlreadyExsist = await this.db.collection('users', ref => ref.where('uid', '==', uid))
             .get().toPromise();
-            // .pipe(first())
-            // .toPromise();
+        // .pipe(first())
+        // .toPromise();
 
         if (ifAlreadyExsist.empty) {
             this.addUser(user);
         }
     }
 
-    getUserWithUID(uid: string){
+    getUserWithUID(uid: string) {
         return this.db.collection<User>('users', ref => ref.where('uid', '==', uid)).valueChanges();
     }
 
